@@ -11,6 +11,10 @@ terraform {
 provider "aws" {}
 
 
+locals {
+    instance_count = 2
+}
+
 module "vpc" {
     source = "./vpc"
 }
@@ -22,12 +26,20 @@ module "ec2" {
 
     vpc_id = module.vpc.vpc_id
     subnet_ids = module.vpc.private_subnet_ids
-    instance_count = 2
+    instance_count = local.instance_count
 }
 
-module "load_balancer" {
+module "alb" {
     source = "./load-balancer"
 
     vpc_id = module.vpc.vpc_id
     subnet_ids = module.vpc.public_subnet_ids
 }
+
+resource "aws_lb_target_group_attachment" "attachment" {
+  count = local.instance_count
+  target_group_arn = module.alb.target_group_arn
+  target_id        = module.ec2.instance_ids[count.index]
+  port             = 80
+}
+
