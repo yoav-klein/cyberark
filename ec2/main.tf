@@ -61,6 +61,7 @@ resource "aws_instance" "ec2_instance" {
 
   tags = {
     Name = "myInstance${count.index}"
+    Environment = "exercise"
   }
 
   user_data = <<-EOF
@@ -72,6 +73,8 @@ yum update -y
 yum install -y nginx
 
 systemctl start nginx
+
+hostnamectl set-hostname app${count.index + 1}
 
 EOF
 
