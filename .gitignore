@@ -33,5 +33,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-key
-key.pub
+aws
+aws.pub
