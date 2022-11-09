@@ -6,7 +6,8 @@ This repository holds Terraform configuration that will provision the following 
 1. VPC
 2. 2 subnets - private and public
 3. 2 EC2 instances with Nginx installed
-4. Application Load Balancer to load-balance traffic between the instances.
+4. Elastic IP addresses for the instances
+5. Application Load Balancer to load-balance traffic between the instances.
 
 
 ## Usage
