@@ -24,3 +24,10 @@ module "ec2" {
     subnet_ids = module.vpc.private_subnet_ids
     instance_count = 2
 }
+
+module "load_balancer" {
+    source = "./load-balancer"
+
+    vpc_id = module.vpc.vpc_id
+    subnet_ids = module.vpc.public_subnet_ids
+}

@@ -63,5 +63,23 @@ resource "aws_instance" "ec2_instance" {
     Name = "myInstance${count.index}"
   }
 
+  user_data = <<-EOF
+#!/bin/bash
+
+amazon-linux-extras enable nginx1
+
+yum update -y
+yum install -y nginx
+
+systemctl start nginx
+
+EOF
+
 }
 
+resource "aws_eip" "eip" {
+    count = length(aws_instance.ec2_instance)
+
+    instance = aws_instance.ec2_instance[count.index].id
+    vpc = true
+}
