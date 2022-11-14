@@ -1,7 +1,7 @@
 
 
 resource "aws_security_group" "sg" {
-  name = "lbSecurityGroup"
+  name   = "lbSecurityGroup"
   vpc_id = var.vpc_id
 
   ingress {

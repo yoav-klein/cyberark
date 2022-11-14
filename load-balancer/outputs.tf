@@ -5,6 +5,6 @@ output "target_group_arn" {
 }
 
 output "dns_name" {
-    description = "DNS name of load balancer"
-    value = module.alb.lb_dns_name
+  description = "DNS name of load balancer"
+  value       = module.alb.lb_dns_name
 }

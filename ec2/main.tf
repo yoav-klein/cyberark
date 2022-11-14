@@ -1,16 +1,16 @@
 
 terraform {
-    required_providers {
-        aws = {
-            source = "hashicorp/aws"
-            version = "~> 4.16"
-        }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.16"
     }
+  }
 }
 
 
 resource "aws_security_group" "sg" {
-  name = "mySecurityGroup"
+  name   = "mySecurityGroup"
   vpc_id = var.vpc_id
 
   ingress {
@@ -53,14 +53,14 @@ resource "aws_key_pair" "deployer" {
 resource "aws_instance" "ec2_instance" {
   count = var.instance_count
 
-  ami                  = "ami-03dbf0c122cb6cf1d" # Amazon Linux AMI
-  key_name             = aws_key_pair.deployer.key_name
-  instance_type        = "t3.micro"
-  vpc_security_group_ids  = [aws_security_group.sg.id]
-  subnet_id = var.subnet_ids[count.index % length(var.subnet_ids)]
+  ami                    = "ami-03dbf0c122cb6cf1d" # Amazon Linux AMI
+  key_name               = aws_key_pair.deployer.key_name
+  instance_type          = "t3.micro"
+  vpc_security_group_ids = [aws_security_group.sg.id]
+  subnet_id              = var.subnet_ids[count.index % length(var.subnet_ids)]
 
   tags = {
-    Name = "myInstance${count.index}"
+    Name        = "myInstance${count.index}"
     Environment = "exercise"
   }
 
@@ -81,8 +81,8 @@ EOF
 }
 
 resource "aws_eip" "eip" {
-    count = length(aws_instance.ec2_instance)
+  count = length(aws_instance.ec2_instance)
 
-    instance = aws_instance.ec2_instance[count.index].id
-    vpc = true
+  instance = aws_instance.ec2_instance[count.index].id
+  vpc      = true
 }
